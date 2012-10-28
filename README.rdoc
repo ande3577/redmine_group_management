@@ -1,3 +1,0 @@
-= redmine_group_management
-
-Description goes here
