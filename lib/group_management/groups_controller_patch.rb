@@ -8,9 +8,9 @@ module GroupsControllerPatch
       layout :check_layout
       
       before_filter :authorize_global
-      skip_before_filter :require_admin, :only => [:manage, :edit, :show, :edit_membership, :add_users, :remove_user, :destroy_membership]
-      skip_before_filter :find_group, :only => [:manage]
-      before_filter :check_membership, :except => [:manage]
+      skip_before_filter :require_admin
+      before_filter :check_membership, :except => [:index]
+      before_filter :get_groups, :only => [:index]
     end
   end
   
@@ -35,12 +35,11 @@ module GroupsControllerPatch
     end
   end
   
-  def manage
-    @groups = User.current.groups.sorted.all
-    
-    respond_to do |format|
-      format.html
-      format.api
+  def get_groups
+    if User.current.admin?
+      @visible_groups = Group.sorted.all
+    else
+      @visible_groups = User.current.groups.sorted.all
     end
   end
   

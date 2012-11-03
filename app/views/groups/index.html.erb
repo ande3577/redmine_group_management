@@ -1,0 +1,29 @@
+<% if User.current.allowed_to?( {:controller => 'groups', :action => 'create'}, nil, :global => true ) %>
+	<div class="contextual">
+	<%= link_to l(:label_group_new), new_group_path, :class => 'icon icon-add' %>
+	</div>
+<% end %>
+
+<h2><%= l(:label_group_plural) %></h2>
+
+<% if @visible_groups.any? %>
+<table class="list groups">
+  <thead><tr>
+  <th><%=l(:label_group)%></th>
+  <th><%=l(:label_user_plural)%></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% @visible_groups.each do |group| %>
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <td><%= link_to h(group), edit_group_path(group) %></td>
+    <td align="center"><%= group.users.size %></td>
+    <% if User.current.allowed_to?( {:controller => 'groups', :action => 'create'}, nil, :global => true ) %>
+    	<td class="buttons"><%= delete_link group %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

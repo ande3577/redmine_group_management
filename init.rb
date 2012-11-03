@@ -11,9 +11,9 @@ Redmine::Plugin.register :redmine_group_management do
   author_url 'https://github.com/ande3577/'
   
   project_module :groups do
-    permission :manage_groups, :groups => [:manage, :edit, :show, :edit_membership, :add_users, :remove_user, :destroy_membership, :update]
+    permission :manage_groups, :groups => [:index, :edit, :show, :edit_membership, :add_users, :remove_user, :destroy_membership, :update]
   end
   
-  menu :top_menu, :group_manager_main_menu, {:controller => 'groups', :action => 'manage'}, :caption => :label_group_plural,
-   :if => Proc.new { !User.current.nil? && User.current.allowed_to?({:controller => 'groups', :action => 'manage'},nil, :global => true ) && !User.current.admin? }
+  menu :top_menu, :group_manager_main_menu, {:controller => 'groups', :action => 'index'}, :caption => :label_group_plural,
+   :if => Proc.new { !User.current.nil? && User.current.allowed_to?({:controller => 'groups', :action => 'index'},nil, :global => true ) && !User.current.admin? }
 end
