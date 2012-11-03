@@ -8,5 +8,9 @@ The following permissions are supported.
 
 * Adding/Removing project memberships
 
-A user can only manage groups to which he/she belongs.
+* Creating/Deleting Groups
+
+* Manage all groups (otherwise a user can only manage groups to which he/she belongs)
+
+
 
