@@ -9,7 +9,7 @@ module GroupsControllerPatch
       
       before_filter :authorize_global
       skip_before_filter :require_admin
-      before_filter :check_membership, :except => [:index]
+      before_filter :check_membership, :except => [:index, :new, :create]
       before_filter :get_groups, :only => [:index]
     end
   end
@@ -30,16 +30,25 @@ module GroupsControllerPatch
   
   def check_membership
     # deny access if trying to access a group where not a member
-    if !User.current.admin? && (@group.nil? || @group.users.where(:id => User.current.id).empty?)
+    if !User.current.allowed_to?({:controller => 'groups', :action => 'manage_all'},nil, :global => true ) && (@group.nil? || (@group.users.where(:id => User.current.id).empty? && !@group.users.empty?))
       deny_access 
     end
   end
   
   def get_groups
-    if User.current.admin?
+    if User.current.allowed_to?({:controller => 'groups', :action => 'manage_all'},nil, :global => true )
       @visible_groups = Group.sorted.all
     else
-      @visible_groups = User.current.groups.sorted.all
+      @visible_groups = []
+      Group.sorted.all.each do |group|
+        logger.debug "group = #{group.inspect}"
+        logger.debug "users = #{group.users.inspect}"
+        if !group.users.where(:id => User.current.id).empty? || group.users.empty?
+          logger.debug "Adding #{group.to_s}"
+          @visible_groups << group
+        end
+      end
+      logger.debug "@visible_groups = #{@visible_groups.inspect}"
     end
   end
   

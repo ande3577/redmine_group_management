@@ -1,6 +1,7 @@
 
 # Patches to the Redmine core.
 require 'group_management/groups_controller_patch'
+require 'group_management/group_patch'
 
 Redmine::Plugin.register :redmine_group_management do
   name 'Redmine Group Management plugin'
@@ -12,6 +13,9 @@ Redmine::Plugin.register :redmine_group_management do
   
   project_module :groups do
     permission :manage_groups, :groups => [:index, :edit, :show, :edit_membership, :add_users, :remove_user, :destroy_membership, :update]
+    permission :create_group, :groups => [:new, :create]
+    permission :delete_group, :groups => [:destroy]
+    permission :manage_all_groups, :groups => [:index, :edit, :show, :edit_membership, :add_users, :remove_user, :destroy_membership, :update, :manage_all]
   end
   
   menu :top_menu, :group_manager_main_menu, {:controller => 'groups', :action => 'index'}, :caption => :label_group_plural,

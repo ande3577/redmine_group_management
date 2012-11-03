@@ -18,7 +18,7 @@
   <tr class="<%= cycle 'odd', 'even' %>">
     <td><%= link_to h(group), edit_group_path(group) %></td>
     <td align="center"><%= group.users.size %></td>
-    <% if User.current.allowed_to?( {:controller => 'groups', :action => 'create'}, nil, :global => true ) %>
+    <% if User.current.allowed_to?( {:controller => 'groups', :action => 'destroy'}, nil, :global => true ) %>
     	<td class="buttons"><%= delete_link group %></td>
     <% end %>
   </tr>
