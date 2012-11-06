@@ -20,6 +20,8 @@
     <td align="center"><%= group.users.size %></td>
     <% if User.current.allowed_to?( {:controller => 'groups', :action => 'destroy'}, nil, :global => true ) %>
     	<td class="buttons"><%= delete_link group %></td>
+   	<% else %>
+   		<td></td>
     <% end %>
   </tr>
 <% end %>
