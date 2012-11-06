@@ -33,6 +33,10 @@ module GroupsControllerPatch
     if !User.current.allowed_to?({:controller => 'groups', :action => 'manage_all'},nil, :global => true ) && (@group.nil? || (@group.users.where(:id => User.current.id).empty? && !@group.users.empty?))
       deny_access 
     end
+    
+    if @group.users.empty? && !User.current.allowed_to?({:controller => 'groups', :action => 'create'},nil, :global => true )
+      deny_access
+    end
   end
   
   def get_groups
@@ -41,10 +45,8 @@ module GroupsControllerPatch
     else
       @visible_groups = []
       Group.sorted.all.each do |group|
-        logger.debug "group = #{group.inspect}"
-        logger.debug "users = #{group.users.inspect}"
-        if !group.users.where(:id => User.current.id).empty? || group.users.empty?
-          logger.debug "Adding #{group.to_s}"
+        if !group.users.where(:id => User.current.id).empty? || 
+          (group.users.empty? && User.current.allowed_to?({:controller => 'groups', :action => 'create'},nil, :global => true ))
           @visible_groups << group
         end
       end
