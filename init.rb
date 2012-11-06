@@ -19,5 +19,5 @@ Redmine::Plugin.register :redmine_group_management do
   end
   
   menu :top_menu, :group_manager_main_menu, {:controller => 'groups', :action => 'index'}, :caption => :label_group_plural,
-   :if => Proc.new { !User.current.nil? && User.current.allowed_to?({:controller => 'groups', :action => 'index'},nil, :global => true ) && !User.current.admin? }
+   :if => Proc.new { !User.current.nil? && User.current.allowed_to?({:controller => 'groups', :action => 'index'},nil, :global => true ) }
 end
