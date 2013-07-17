@@ -12,7 +12,7 @@ Redmine::Plugin.register :redmine_group_management do
   author_url 'https://github.com/ande3577/'
   
   project_module :groups do
-    permission :manage_groups, :groups => [:index, :edit, :show, :edit_membership, :add_users, :remove_user, :destroy_membership, :update]
+    permission :manage_groups, :groups => [:index, :edit, :show, :edit_membership, :add_users, :remove_user, :destroy_membership, :update, :autocomplete_for_user]
     permission :create_group, :groups => [:new, :create]
     permission :delete_group, :groups => [:destroy]
     permission :manage_all_groups, :groups => [:index, :edit, :show, :edit_membership, :add_users, :remove_user, :destroy_membership, :update, :manage_all]
